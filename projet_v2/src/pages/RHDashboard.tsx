@@ -243,9 +243,22 @@ function ChefChargeChart({ labels,values,loading }: { labels:string[];values:num
     chartRef.current = new Chart(canvasRef.current,{
       type:'bar',
       data:{ labels, datasets:[{ label:'Charge (%)', data:values, backgroundColor:values.map(v=>v>=80?'#ef4444':v>=50?'#f59e0b':'#6366f1'), borderRadius:6, borderSkipped:false }] },
-      options:{ ...theme.chartOptions as any, indexAxis:'y',
+      options:{ ...theme.chartOptions as any,
         plugins:{ ...theme.chartOptions.plugins, legend:{ display:false } },
-        scales:{ x:{ ...theme.chartOptions.scales?.x,max:100,ticks:{ callback:(v:any)=>`${v}%` },grid:{ display:true } }, y:{ ...theme.chartOptions.scales?.y,grid:{ display:false } } },
+    scales:{
+  x:{
+    ...theme.chartOptions.scales?.x,
+    grid:{ display:false }
+  },
+  y:{
+    ...theme.chartOptions.scales?.y,
+    max:100,
+    ticks:{
+      callback:(v:any)=>`${v}%`
+    },
+    grid:{ display:true }
+  }
+}
       } as any,
     });
     return ()=>{ chartRef.current?.destroy(); };
